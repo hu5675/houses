@@ -16,4 +16,8 @@ public class UserService {
     public List<User> getUsers(){
         return  this.userMapper.selectUsers();
     }
+
+    public boolean addAccount(User account) {
+        return true;
+    }
 }
