@@ -18,21 +18,25 @@ public class User {
 
     private String confirmPasswd;
 
-    private Integer type; //1 普通用户 2 经纪人
+    private Integer type;//普通用户1，经纪人2
 
-    private Date createTime;
+    private Date   createTime;
 
     private Integer enable;
 
-    private String avator;
+    private String  avatar;
 
-    private MultipartFile avatorFile;
+    private MultipartFile avatarFile;
 
     private String newPassword;
 
     private String key;
 
-    private Long agentId;
+    private Long   agencyId;
+
+    private String aboutme;
+
+    private String agencyName;
 
     public Long getId() {
         return id;
@@ -106,20 +110,20 @@ public class User {
         this.enable = enable;
     }
 
-    public String getAvator() {
-        return avator;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setAvator(String avator) {
-        this.avator = avator;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
-    public MultipartFile getAvatorFile() {
-        return avatorFile;
+    public MultipartFile getAvatarFile() {
+        return avatarFile;
     }
 
-    public void setAvatorFile(MultipartFile avatorFile) {
-        this.avatorFile = avatorFile;
+    public void setAvatarFile(MultipartFile avatarFile) {
+        this.avatarFile = avatarFile;
     }
 
     public String getNewPassword() {
@@ -138,11 +142,27 @@ public class User {
         this.key = key;
     }
 
-    public Long getAgentId() {
-        return agentId;
+    public Long getAgencyId() {
+        return agencyId;
     }
 
-    public void setAgentId(Long agentId) {
-        this.agentId = agentId;
+    public void setAgencyId(Long agencyId) {
+        this.agencyId = agencyId;
+    }
+
+    public String getAboutme() {
+        return aboutme;
+    }
+
+    public void setAboutme(String aboutme) {
+        this.aboutme = aboutme;
+    }
+
+    public String getAgencyName() {
+        return agencyName;
+    }
+
+    public void setAgencyName(String agencyName) {
+        this.agencyName = agencyName;
     }
 }

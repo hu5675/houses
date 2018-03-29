@@ -5,18 +5,21 @@ import com.mooc.house.common.model.User;
 import com.mooc.house.common.result.ResultMsg;
 import com.mooc.house.helper.UserHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     @RequestMapping("users")
+    @ResponseBody
     public List<User> getUsers() {
         return this.userService.getUsers();
     }
