@@ -9,6 +9,6 @@ bin/*
 .kitchen.local.yml
 
 .idea/*
-target/*
+**/target/*
 *.iml
 logs/*
