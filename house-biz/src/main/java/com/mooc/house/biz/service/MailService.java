@@ -5,7 +5,9 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
 import com.mooc.house.biz.mapper.UserMapper;
+import com.mooc.house.common.model.User;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -39,7 +41,7 @@ public class MailService {
     @Value("${spring.mail.username}")
     private String from;
 
-    @Value("${domain.name")
+    @Value("${domain.name}")
     private String domainName;
 
     @Async
@@ -57,6 +59,20 @@ public class MailService {
         message.setFrom(from);
         message.setTo(email);
         message.setText(url);
-        mailSender.send(message);
+        System.out.println("发送email:" + url);
+//        mailSender.send(message);
+    }
+
+    public boolean enable(String key) {
+        String email = registerCache.getIfPresent(key);
+        if (StringUtils.isBlank(email)){
+            return false;
+        }
+        User updateUser = new User();
+        updateUser.setEmail(email);
+        updateUser.setEnable(1);
+        userMapper.update(updateUser);
+        registerCache.invalidate(key);
+        return true;
     }
 }
