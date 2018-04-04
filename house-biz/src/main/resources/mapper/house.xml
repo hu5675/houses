@@ -66,7 +66,8 @@
     </sql>
 
     <select id="selectPageHouses" resultType="house">
-        select <include refid="houseField"></include>
+        select
+        <include refid="houseField"></include>
         from house a
         <include refid="houseCondition"></include>
         <choose>
@@ -77,7 +78,7 @@
                 order by a.price desc
             </when>
         </choose>
-        <if test ="pageParams.offset !=null and pageParams.limit != null">
+        <if test="pageParams.offset !=null and pageParams.limit != null">
             limit #{pageParams.offset},#{pageParams.limit}
         </if>
         <if test="pageParams.offset == null and pageParams.limit != null">
@@ -104,5 +105,30 @@
             </if>
         </where>
     </select>
-    
+
+    <select id="selectSaleHouseUser" resultType="houseUser">
+        select id,house_id,user_id,create_time,type
+        from house_user
+        where house_id = #{id} and  type = 1
+        limit 1
+    </select>
+
+
+    <insert id="insertUserMsg">
+        insert into house_msg (
+        msg,
+        create_time,
+        user_name,
+        house_id,
+        agent_id
+        )
+        value(
+        #{msg},
+        #{createTime},
+        #{userName},
+        #{houseId},
+        #{agentId}
+        )
+    </insert>
+
 </mapper>

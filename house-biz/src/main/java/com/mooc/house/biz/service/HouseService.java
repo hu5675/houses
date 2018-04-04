@@ -3,13 +3,15 @@ package com.mooc.house.biz.service;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.mooc.house.biz.mapper.HouseMapper;
-import com.mooc.house.common.model.Community;
-import com.mooc.house.common.model.House;
+import com.mooc.house.common.model.*;
 import com.mooc.house.common.page.PageData;
 import com.mooc.house.common.page.PageParams;
+import com.mooc.house.common.utils.BeanHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
+import sun.management.resources.agent;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +22,11 @@ public class HouseService {
     @Autowired
     private HouseMapper houseMapper;
 
+    @Autowired
+    AgencyService agencyService;
+
+    @Autowired
+    private MailService mailService;
 
     @Value("${file.prefix}")
     private String imgPrefix;
@@ -58,5 +65,28 @@ public class HouseService {
             h.setFloorPlanList(h.getFloorPlanList().stream().map(img -> imgPrefix + img).collect(Collectors.toList()));
         });
         return houses;
+    }
+
+    public House queryOneHouse(Long id) {
+        House query = new House();
+        query.setId(id);
+        List<House> houses = queryAndSetImg(query,PageParams.build(1,1));
+        if (!houses.isEmpty()){
+            return houses.get(0);
+        }
+        return null;
+    }
+
+    public void addUserMsg(UserMsg userMsg) {
+        BeanHelper.onInsert(userMsg);
+        houseMapper.insertUserMsg(userMsg);
+
+        User agent = agencyService.getAgentDetail(userMsg.getAgentId());
+        mailService.sendMail("来自用户"+userMsg.getEmail()+"的留言", userMsg.getMsg(), agent.getEmail());
+    }
+
+    public HouseUser getHouseUser(Long houseId) {
+        HouseUser houseUser =  houseMapper.selectSaleHouseUser(houseId);
+        return houseUser;
     }
 }

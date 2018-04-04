@@ -1,5 +1,6 @@
 package com.mooc.house.controller;
 
+import com.mooc.house.biz.service.AgencyService;
 import com.mooc.house.biz.service.UserService;
 import com.mooc.house.common.constant.CommonConstants;
 import com.mooc.house.common.model.User;
@@ -24,6 +25,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AgencyService agencyService;
+
+
     @RequestMapping("users")
     @ResponseBody
     public List<User> getUsers() {
@@ -39,6 +44,7 @@ public class UserController {
     @RequestMapping("accounts/register")
     public String accountRegister(User account, ModelMap modelMap) {
         if (account == null || account.getName() == null) {
+            modelMap.put("agencyList",  agencyService.getAllAgency());
             return "/user/accounts/register";
         }
 
