@@ -1,3 +1,0 @@
-2018-04-04 14:00:10.518  [main] DEBUG [com.mooc.house.biz.mapper.UserMapper.selectUsersByQuery:] maincid - ==>  Preparing: select * from user WHERE email = ? and passwd = ? and enable = ? 
-2018-04-04 14:00:10.671  [main] DEBUG [com.mooc.house.biz.mapper.UserMapper.selectUsersByQuery:] maincid - ==> Parameters: hu5675@126.com(String), 75fb23b165249cedeb60544c4095ec99(String), 1(Integer)
-2018-04-04 14:00:10.779  [main] DEBUG [com.mooc.house.biz.mapper.UserMapper.selectUsersByQuery:] maincid - <==      Total: 1
