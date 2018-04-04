@@ -1,5 +1,6 @@
 package com.mooc.house.biz.service;
 
+import com.google.common.base.Objects;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.RemovalListener;
@@ -15,6 +16,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -29,7 +31,13 @@ public class MailService {
             .removalListener(new RemovalListener<String, String>() {
                 @Override
                 public void onRemoval(RemovalNotification<String, String> notification) {
-                    userMapper.delete(notification.getKey());
+                    String email = notification.getValue();
+                    User user = new User();
+                    user.setEmail(email);
+                    List<User> targetUser = userMapper.selectUsersByQuery(user);
+                    if (!targetUser.isEmpty() && Objects.equal(targetUser.get(0).getEnable(),1)){
+                        userMapper.delete(email);
+                    }
                 }
             }).build();
 
@@ -49,7 +57,7 @@ public class MailService {
         String randomKey = RandomStringUtils.randomAlphabetic(10);
         registerCache.put(randomKey,email);
 
-        String url =  "http://" + domainName + "/account/verify?key="+randomKey;
+        String url =  "http://" + domainName + "/accounts/verify?key="+randomKey;
         sendMail("房产平台激活邮件",url,email);
     }
 

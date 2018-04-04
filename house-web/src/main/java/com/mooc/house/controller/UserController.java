@@ -4,6 +4,7 @@ import com.mooc.house.biz.service.UserService;
 import com.mooc.house.common.constant.CommonConstants;
 import com.mooc.house.common.model.User;
 import com.mooc.house.common.result.ResultMsg;
+import com.mooc.house.common.utils.HashUtils;
 import com.mooc.house.helper.UserHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class UserController {
      * @return
      */
     @RequestMapping("accounts/register")
-    public String accountRegister(User account,ModelMap modelMap) {
+    public String accountRegister(User account, ModelMap modelMap) {
         if (account == null || account.getName() == null) {
             return "/user/accounts/register";
         }
@@ -78,16 +79,42 @@ public class UserController {
         }
         HttpSession session = request.getSession(true);
         session.setAttribute(CommonConstants.USER_ATTRIBUTE, user);
-        session.setAttribute(CommonConstants.PLAIN_USER_ATTRIBUTE, user);
+//        session.setAttribute(CommonConstants.PLAIN_USER_ATTRIBUTE, user);
         return StringUtils.isNoneBlank(target) ? "redirect:" + target : "redirect:/index";
     }
 
     @RequestMapping("accounts/logout")
-    public String logout(HttpServletRequest request){
+    public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession(true);
         session.invalidate();
         return "redirect:/index";
     }
 
+    @RequestMapping("accounts/profile")
+    public String profile(HttpServletRequest request, User updateUser,ModelMap modelMap){
+        if (updateUser.getEmail() == null) {
+//            User user = (User)request.getSession(true).getAttribute(CommonConstants.USER_ATTRIBUTE);
+//            modelMap.put(CommonConstants.USER_ATTRIBUTE,user);
+            return "/user/accounts/profile";
+        }
+        userService.updateUser(updateUser,updateUser.getEmail());
 
+        User query = new User();
+        query.setEmail(updateUser.getEmail());
+        List<User> list = userService.getUserByQuery(query);
+        request.getSession(true).setAttribute(CommonConstants.USER_ATTRIBUTE,list.get(0));
+        return "redirect:/accounts/profile?"+ResultMsg.successMsg("更新成功").asUrlParams();
+    }
+
+    @RequestMapping("accounts/changePassword")
+    public  String changePassword(String email,String password,String newPassword,String confirmPassword,ModelMap modelMap){
+        User user = userService.auth(email,password);
+        if (user == null || !confirmPassword.equals(newPassword)){
+            return  "redirect:/accounts/profile?" + ResultMsg.errorMsg("密码错误").asUrlParams();
+        }
+        User updateUser = new User();
+        updateUser.setPasswd(HashUtils.encryPassword(newPassword));
+        userService.updateUser(updateUser,email);
+        return "redirect:/accounts/profile?" + ResultMsg.successMsg("更新成功").asUrlParams();
+    }
 }

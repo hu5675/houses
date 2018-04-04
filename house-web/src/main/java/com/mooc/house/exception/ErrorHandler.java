@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class ErrorHandler {
 
-    private  static final Logger logger = LoggerFactory.getLogger(ErrorHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(ErrorHandler.class);
 
-    @ExceptionHandler(value = {Exception.class,RuntimeException.class})
-    public  String error500(HttpServletRequest request,Exception e){
+    @ExceptionHandler(value = {Exception.class, RuntimeException.class})
+    public String error500(HttpServletRequest request, Exception e) {
 
-        logger.error(e.getMessage(),e);
+        logger.error(e.getMessage(), e);
         logger.error(request.getRequestURL() + " encounter 500");
         return "error/500";
     }

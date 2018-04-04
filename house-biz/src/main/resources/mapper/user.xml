@@ -23,7 +23,7 @@
             <if test="enable != null">
                 and enable = #{enable}
             </if>
-            <if test="type != null type != 0">
+            <if test="type != null and type != 0">
                 and type = #{type}
             </if>
         </where>
@@ -68,7 +68,7 @@
             <if test="name != null and name != '' ">
                 name = #{name},
             </if>
-            <if test="aboutme != null aboutme != '' ">
+            <if test="aboutme != null and aboutme != '' ">
                 aboutme = #{aboutme},
             </if>
             <if test="passwd != null and passwd != '' ">
