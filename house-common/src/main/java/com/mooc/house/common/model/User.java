@@ -20,11 +20,11 @@ public class User {
 
     private Integer type;//普通用户1，经纪人2
 
-    private Date   createTime;
+    private Date createTime;
 
     private Integer enable;
 
-    private String  avatar;
+    private String avatar;
 
     private MultipartFile avatarFile;
 
@@ -32,7 +32,7 @@ public class User {
 
     private String key;
 
-    private Long   agencyId;
+    private Long agencyId;
 
     private String aboutme;
 

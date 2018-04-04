@@ -24,7 +24,7 @@ public class DruidConfig {
     @Bean
     public Filter statFilter(){
         StatFilter filter = new StatFilter();
-        filter.setSlowSqlMillis(1);
+        filter.setSlowSqlMillis(200); //显示执行超过200毫秒的sql
         filter.setLogSlowSql(true);
         filter.setMergeSql(true);
         return filter;
