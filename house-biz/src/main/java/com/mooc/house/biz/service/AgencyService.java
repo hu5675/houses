@@ -4,6 +4,7 @@ import com.mooc.house.biz.mapper.AgencyMapper;
 import com.mooc.house.common.model.Agency;
 import com.mooc.house.common.model.House;
 import com.mooc.house.common.model.User;
+import com.mooc.house.common.page.PageData;
 import com.mooc.house.common.page.PageParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,5 +47,16 @@ public class AgencyService {
 
     public List<Agency> getAllAgency() {
         return agencyMapper.select(new Agency());
+    }
+
+    public PageData<User> getAllAgent(PageParams pageParams) {
+
+        List<User> agents = agencyMapper.selectAgent(new User(),pageParams);
+
+        setImg(agents);
+
+        Long count = agencyMapper.selectAgentCount(new User());
+
+        return  PageData.buildPage(agents,count,pageParams.getPageSize(),pageParams.getPageNum());
     }
 }
