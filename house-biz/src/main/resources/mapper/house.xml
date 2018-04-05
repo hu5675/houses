@@ -113,6 +113,12 @@
         limit 1
     </select>
 
+    <select id="selectHouseUser" resultType="houseUser">
+        select id,house_id,user_id,create_time,type
+        from house_user
+        where house_id = #{id} and user_id = #{userId} and type = #{type}
+    </select>
+
 
     <insert id="insertUserMsg">
         insert into house_msg (
@@ -130,5 +136,62 @@
         #{agentId}
         )
     </insert>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into house(
+        type,
+        name,
+        price,
+        images,
+        area,
+        beds,
+        baths,
+        rating,
+        remarks,
+        properties,
+        floor_plan,
+        tags,
+        create_time,
+        city_id,
+        community_id,
+        address,
+        state
+        )
+        value(
+        #{type},
+        #{name},
+        #{price},
+        #{images},
+        #{area},
+        #{beds},
+        #{baths},
+        #{rating},
+        #{remarks},
+        #{properties},
+        #{floorPlan},
+        #{tags},
+        #{createTime},
+        #{cityId},
+        #{communityId},
+        #{address},
+        #{state}
+        )
+    </insert>
+
+
+    <insert id="insertHouseUser">
+        insert into house_user (house_id,
+        user_id,
+        create_time,
+        type)
+        value(
+        #{houseId},
+        #{userId},
+        #{createTime},
+        #{type}
+        )
+
+    </insert>
+
 
 </mapper>

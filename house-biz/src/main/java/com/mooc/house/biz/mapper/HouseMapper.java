@@ -22,4 +22,10 @@ public interface HouseMapper {
     void insertUserMsg(UserMsg userMsg);
 
     HouseUser selectSaleHouseUser(Long houseId);
+
+    void insert(House house);
+
+    HouseUser selectHouseUser(@Param("userId") Long userId, @Param("id") Long houseId, @Param("type") Integer type);
+
+    Integer insertHouseUser(HouseUser houseUser);
 }
