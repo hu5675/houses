@@ -3,6 +3,7 @@ package com.mooc.house.controller;
 import com.google.common.collect.Lists;
 import com.mooc.house.biz.service.AgencyService;
 import com.mooc.house.biz.service.HouseService;
+import com.mooc.house.biz.service.RecommendService;
 import com.mooc.house.common.constant.CommonConstants;
 import com.mooc.house.common.model.House;
 import com.mooc.house.common.model.HouseUser;
@@ -26,6 +27,9 @@ public class HouseController {
     @Autowired
     private AgencyService agencyService;
 
+    @Autowired
+    private RecommendService recommendService;
+
     /**
      * 1、分页
      * 2、支持小区搜索、类型搜索
@@ -39,7 +43,7 @@ public class HouseController {
         PageData pageData = houseService.queryHouse(query, PageParams.build(pageSize, pageNum));
         modelMap.put("ps", pageData);
         modelMap.put("vo", query);
-        List<House> hotHouses = Lists.newArrayList();// recommendService.getHotHouse(CommonConstants.RECOM_SIZE);
+        List<House> hotHouses = recommendService.getHotHouse(CommonConstants.RECOM_SIZE);
         modelMap.put("recomHouses", hotHouses);
 
         return "house/listing";
@@ -49,11 +53,12 @@ public class HouseController {
     public String houseDetail(Long id,ModelMap modelMap) {
         House house = houseService.queryOneHouse(id);
         HouseUser houseUser = houseService.getHouseUser(id);
+        recommendService.increase(id);
         if (houseUser.getUserId() != null && !houseUser.getUserId().equals(0)){
             modelMap.put("agent",agencyService.getAgentDetail(houseUser.getUserId()));
         }
         modelMap.put("house",house);
-        modelMap.put("recomHouses", Lists.newArrayList());
+        modelMap.put("recomHouses", recommendService.getHotHouse(CommonConstants.RECOM_SIZE));
         modelMap.put("commentList", Lists.newArrayList());
         return "/house/detail";
     }

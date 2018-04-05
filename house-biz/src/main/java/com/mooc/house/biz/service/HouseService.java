@@ -57,7 +57,7 @@ public class HouseService {
         return PageData.buildPage(houses, count, pageParams.getPageSize(), pageParams.getPageNum());
     }
 
-    private List<House> queryAndSetImg(House query, PageParams pageParams) {
+    public List<House> queryAndSetImg(House query, PageParams pageParams) {
         List<House> houses = houseMapper.selectPageHouses(query, pageParams);
         if (houses.size() == 0){
             return Lists.newArrayList();
