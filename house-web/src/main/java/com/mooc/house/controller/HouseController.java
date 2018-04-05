@@ -6,6 +6,7 @@ import com.mooc.house.biz.service.CityService;
 import com.mooc.house.biz.service.HouseService;
 import com.mooc.house.biz.service.RecommendService;
 import com.mooc.house.common.constant.CommonConstants;
+import com.mooc.house.common.constant.HouseUserType;
 import com.mooc.house.common.model.House;
 import com.mooc.house.common.model.HouseUser;
 import com.mooc.house.common.model.User;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -105,5 +107,47 @@ public class HouseController {
         modelMap.put("pageType", "own");
 
         return "house/ownlist";
+    }
+
+    @ResponseBody
+    @RequestMapping("house/rating")
+    public ResultMsg houseRate(Double rating, Long id) {
+        houseService.updateRating(id, rating);
+        return ResultMsg.successMsg("ok");
+    }
+
+    @ResponseBody
+    @RequestMapping("house/bookmark")
+    public ResultMsg bookmark(Long id) {
+        User user = UserContext.getUser();
+        houseService.bindUser2House(id, user.getId(), true);
+        return ResultMsg.successMsg("ok");
+    }
+
+    @ResponseBody
+    @RequestMapping("house/unbookmark")
+    public ResultMsg unbookmark(Long id) {
+        User user = UserContext.getUser();
+        houseService.unbindUser2House(id, user.getId(), HouseUserType.BOOKMARK);
+        return ResultMsg.successMsg("ok");
+    }
+
+    @RequestMapping(value = "house/del")
+    public String delsale(Long id, String pageType) {
+        User user = UserContext.getUser();
+        houseService.unbindUser2House(id, user.getId(), pageType.equals("own") ? HouseUserType.SALE : HouseUserType.BOOKMARK);
+        return "redirect:/house/ownlist";
+    }
+
+    @RequestMapping("house/bookmarked")
+    public String bookmarded(House house, Integer pageNum, Integer pageSize, ModelMap modelMap) {
+        User user = UserContext.getUser();
+
+        house.setBookmarked(true);
+        house.setUserId(user.getId());
+        modelMap.put("ps", houseService.queryHouse(house, PageParams.build(pageSize, pageNum)));
+
+        modelMap.put("pageType", "book");
+        return "/house/ownlist";
     }
 }

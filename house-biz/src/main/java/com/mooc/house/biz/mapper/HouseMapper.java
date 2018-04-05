@@ -28,4 +28,11 @@ public interface HouseMapper {
     HouseUser selectHouseUser(@Param("userId") Long userId, @Param("id") Long houseId, @Param("type") Integer type);
 
     Integer insertHouseUser(HouseUser houseUser);
+
+    void updateHouse(House updateHouse);
+
+    void deleteHouseUser(@Param("id") Long id, @Param("userId") Long userId, @Param("type") Integer type);
+
+    void downHouse(Long id);
 }
+

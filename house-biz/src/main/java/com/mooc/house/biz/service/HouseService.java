@@ -5,6 +5,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.mooc.house.biz.mapper.HouseMapper;
+import com.mooc.house.biz.mapper.UserMapper;
 import com.mooc.house.common.constant.HouseUserType;
 import com.mooc.house.common.model.*;
 import com.mooc.house.common.page.PageData;
@@ -130,7 +131,7 @@ public class HouseService {
         bindUser2House(house.getId(), user.getId(), false);
     }
 
-    private void bindUser2House(Long houseId, Long userId, boolean isCollect) {
+    public void bindUser2House(Long houseId, Long userId, boolean isCollect) {
         HouseUser existHouseUser = houseMapper.selectHouseUser(userId, houseId, isCollect ? HouseUserType.BOOKMARK.value : HouseUserType.SALE.value);
         if (existHouseUser != null) {
             return;
@@ -141,9 +142,29 @@ public class HouseService {
         houseUser.setUserId(userId);
         houseUser.setType(isCollect ? HouseUserType.BOOKMARK.value : HouseUserType.SALE.value);
 
-        BeanHelper.setDefaultProp(houseUser,HouseUser.class);
+        BeanHelper.setDefaultProp(houseUser, HouseUser.class);
         BeanHelper.onInsert(houseUser);
 
         houseMapper.insertHouseUser(houseUser);
+    }
+
+    public void unbindUser2House(Long id, Long userId, HouseUserType type) {
+        if (type.equals(HouseUserType.SALE)) {
+            houseMapper.downHouse(id);
+        }else {
+            houseMapper.deleteHouseUser(id, userId, type.value);
+        }
+    }
+
+    public void updateRating(Long id, Double rating) {
+        House house = queryOneHouse(id);
+        Double oldRating = house.getRating();
+        Double newRating = oldRating.equals(0D) ? rating : Math.min((oldRating + rating) / 2, 5);
+        House updateHouse = new House();
+        updateHouse.setId(id);
+        updateHouse.setRating(newRating);
+
+        BeanHelper.onUpdate(updateHouse);
+        houseMapper.updateHouse(updateHouse);
     }
 }

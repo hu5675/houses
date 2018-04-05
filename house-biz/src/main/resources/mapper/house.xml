@@ -119,6 +119,12 @@
         where house_id = #{id} and user_id = #{userId} and type = #{type}
     </select>
 
+    <update id="updateHouse">
+        update house
+        set  rating = #{rating}
+        where id = #{id}
+    </update>
+
 
     <insert id="insertUserMsg">
         insert into house_msg (
@@ -193,5 +199,16 @@
 
     </insert>
 
+    <delete id="deleteHouseUser">
+        delete from house_user
+        where  house_id = #{id} and user_id = #{userId} and type=#{type}
+
+    </delete>
+
+    <update id="downHouse">
+        update house
+        set    state = 2
+        where  id = #{id}
+    </update>
 
 </mapper>
