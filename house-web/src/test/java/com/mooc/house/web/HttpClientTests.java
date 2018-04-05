@@ -12,8 +12,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-public class HouseApplicationTests {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+public class HttpClientTests {
 
     @Autowired
     private HttpClient httpClient;
@@ -25,3 +25,4 @@ public class HouseApplicationTests {
     }
 
 }
+
