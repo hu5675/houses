@@ -12,3 +12,6 @@ bin/*
 **/target/*
 *.iml
 **/logs/*
+
+**/.mvn/*
+**/.gitignore
