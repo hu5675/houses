@@ -7,5 +7,12 @@ eureka:
   client:
     service-url:
       defaultZone: http://127.0.0.1:8666/eureka/
-    register-with-eureka: false
+    register-with-eureka: true
+logbook:
+  write:
+    level: info
+  format:
+    style: curl
+  config: classpath:log4j2.xml
+
 
