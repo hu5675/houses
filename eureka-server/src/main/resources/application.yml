@@ -11,8 +11,8 @@ eureka:
     enable-self-preservation: true  #是否开始保护模式
 
   client:
-    register-with-eureka: true  #是否注册eureka
-    fetch-registry: true         #是否启用获取服务注册信息
+    register-with-eureka: false  #是否注册eureka
+    fetch-registry: false         #是否启用获取服务注册信息
     serviceUrl:
       defaultZone: http://127.0.0.1:8777/eureka/
 

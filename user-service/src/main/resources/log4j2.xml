@@ -66,10 +66,10 @@
     <loggers>
 	    <AsyncLogger name="springfox" level="OFF"></AsyncLogger>
 
-        <AsyncLogger level="DEBUG" name="com.mooc.house.user.mapper" additivity="false">
-          <appender-ref ref="FILE-DEBUG" />
-           <appender-ref ref="STDOUT" />
-        </AsyncLogger>
+        <!--<AsyncLogger level="DEBUG" name="com.mooc.house.user.mapper" additivity="false">-->
+          <!--<appender-ref ref="FILE-DEBUG" />-->
+           <!--<appender-ref ref="STDOUT" />-->
+        <!--</AsyncLogger>-->
 
 
         <AsyncRoot level="INFO" includeLocation="true" >

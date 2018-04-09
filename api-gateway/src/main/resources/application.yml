@@ -12,7 +12,11 @@ logbook:
   write:
     level: info
   format:
-    style: curl
+    style: http
   config: classpath:log4j2.xml
+
+#user:
+#  ribbon:
+#    listOfServers: 127.0.0.1:8083,127.0.0.1:8084
 
 
