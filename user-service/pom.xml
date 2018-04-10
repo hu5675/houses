@@ -121,6 +121,13 @@
             <version>1.9.3</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.5</version>
+        </dependency>
+
+
         <!--mail-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -142,6 +149,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
 
 
     </dependencies>

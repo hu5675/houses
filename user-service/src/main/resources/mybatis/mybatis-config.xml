@@ -26,7 +26,7 @@
 
     <mappers>
         <mapper resource="mapper/user.xml"/>
-        <!--<mapper resource="mapper/agency.xml"/>-->
+        <mapper resource="mapper/agency.xml"/>
     </mappers>
 
 
