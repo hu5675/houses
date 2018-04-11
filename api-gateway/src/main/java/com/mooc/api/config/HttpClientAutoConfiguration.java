@@ -9,8 +9,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.zalando.logbook.Logbook;
 import org.zalando.logbook.httpclient.LogbookHttpRequestInterceptor;
 import org.zalando.logbook.httpclient.LogbookHttpResponseInterceptor;
+
+import static org.zalando.logbook.Conditions.*;
 
 @Configuration
 @ConditionalOnClass(HttpClient.class)
@@ -24,8 +27,13 @@ public class HttpClientAutoConfiguration {
         this.properties = properties;
     }
 
-    @Autowired
-    LogbookHttpRequestInterceptor logbookHttpRequestInterceptor;
+    Logbook logbook = Logbook.builder()
+            .condition(exclude(
+                    requestTo("**")))
+            .build();
+
+//    @Autowired
+//    LogbookHttpRequestInterceptor logbookHttpRequestInterceptor;
 
     @Autowired
     LogbookHttpResponseInterceptor logbookHttpResponseInterceptor;
@@ -33,13 +41,15 @@ public class HttpClientAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(HttpClient.class)
     public HttpClient httpClient(){
+
         RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(properties.getConnectTimeout())
                 .setSocketTimeout(properties.getSocketTimeout()).build();
         HttpClient client = HttpClientBuilder.create().setDefaultRequestConfig(requestConfig)
                 .setUserAgent(properties.getAgent())
                 .setMaxConnPerRoute(properties.getMaxConnPerRoute())
                 .setMaxConnTotal(properties.getMaxConnTotal())
-                .addInterceptorFirst(logbookHttpRequestInterceptor)
+//                .addInterceptorFirst(logbookHttpResponseInterceptor)
+                .addInterceptorFirst(new LogbookHttpRequestInterceptor(logbook))
                 .addInterceptorFirst(logbookHttpResponseInterceptor)
                 .build();
         return  client;
