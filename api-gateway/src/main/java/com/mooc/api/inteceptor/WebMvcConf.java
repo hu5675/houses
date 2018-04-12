@@ -36,7 +36,8 @@ public class WebMvcConf extends WebMvcConfigurerAdapter {
                 .allowedOrigins("*")// 放行哪些原始域，比如"http://domain1.com,https://domain2.com"
                 .allowCredentials(true)// 是否发送Cookie信息
                 .allowedMethods("GET", "POST", "PUT", "DELETE") // 放行哪些原始域(请求方式)
-                .allowedHeaders("*");// 放行哪些原始域(头部信息)
+                .allowedHeaders("*")// 放行哪些原始域(头部信息)
+                .exposedHeaders("Header1","Header2");
         super.addCorsMappings(registry);
     }
 
