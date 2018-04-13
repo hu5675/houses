@@ -81,6 +81,7 @@ public class UserDao {
     }
 
     public User getUserByTokenFb(String token) {
+        System.out.println("getUserByTokenFb");
         return new User();
     }
 

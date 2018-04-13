@@ -46,6 +46,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
         Cookie cookie = WebUtils.getCookie(req, TOKEN_COOKIE);
         if (cookie != null && StringUtils.isNoneBlank(cookie.getValue())) {
+            System.out.println("token:" + cookie.getValue());
             User user = userDao.getUserByToken(cookie.getValue());
             if (user != null) {
                 req.setAttribute(CommonConstants.LOGIN_USER_ATTRIBUTE, user);
