@@ -20,7 +20,7 @@ import java.util.List;
 @SpringBootApplication
 @EnableDiscoveryClient
 @Controller
-//@EnableCircuitBreaker
+@EnableCircuitBreaker
 //@RibbonClient(name = "user",configuration = NewRuleConfig.class)
 public class ApiGatewayApplication {
 

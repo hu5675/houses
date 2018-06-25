@@ -27,13 +27,8 @@ public class HttpClientAutoConfiguration {
         this.properties = properties;
     }
 
-    Logbook logbook = Logbook.builder()
-            .condition(exclude(
-                    requestTo("**")))
-            .build();
-
-//    @Autowired
-//    LogbookHttpRequestInterceptor logbookHttpRequestInterceptor;
+    @Autowired
+    LogbookHttpRequestInterceptor logbookHttpRequestInterceptor;
 
     @Autowired
     LogbookHttpResponseInterceptor logbookHttpResponseInterceptor;
@@ -48,8 +43,7 @@ public class HttpClientAutoConfiguration {
                 .setUserAgent(properties.getAgent())
                 .setMaxConnPerRoute(properties.getMaxConnPerRoute())
                 .setMaxConnTotal(properties.getMaxConnTotal())
-//                .addInterceptorFirst(logbookHttpResponseInterceptor)
-                .addInterceptorFirst(new LogbookHttpRequestInterceptor(logbook))
+                .addInterceptorFirst(logbookHttpResponseInterceptor)
                 .addInterceptorFirst(logbookHttpResponseInterceptor)
                 .build();
         return  client;

@@ -73,9 +73,9 @@
 
 
         <AsyncRoot level="INFO" includeLocation="true" >
-            <AppenderRef ref="FILE-INFO" />
-            <AppenderRef ref="FILE-WARN" />
-            <AppenderRef ref="FILE-ERROR" />
+            <!--<AppenderRef ref="FILE-INFO" />-->
+            <!--<AppenderRef ref="FILE-WARN" />-->
+            <!--<AppenderRef ref="FILE-ERROR" />-->
             <AppenderRef ref="STDOUT" />
         </AsyncRoot>
     </loggers>

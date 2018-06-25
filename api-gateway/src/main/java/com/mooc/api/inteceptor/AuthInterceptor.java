@@ -14,6 +14,8 @@ import com.mooc.api.common.UserContext;
 import com.mooc.api.dao.UserDao;
 import com.mooc.api.model.User;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -30,6 +32,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     private static final String TOKEN_COOKIE = "token";
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthInterceptor.class);
 
     @Autowired
     private UserDao userDao;
@@ -44,6 +47,8 @@ public class AuthInterceptor implements HandlerInterceptor {
         if (requestURI.startsWith("/static") || requestURI.startsWith("/error")) {
             return true;
         }
+        logger.info("dddddddddddddddd");
+
         Cookie cookie = WebUtils.getCookie(req, TOKEN_COOKIE);
         if (cookie != null && StringUtils.isNoneBlank(cookie.getValue())) {
             User user = userDao.getUserByToken(cookie.getValue());
