@@ -2,6 +2,7 @@ package com.mooc.api.controller;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.mooc.api.dao.UserDao;
 import com.mooc.api.model.House;
 import com.mooc.api.service.HouseService;
@@ -26,8 +27,9 @@ public class HomepageController {
 
     @RequestMapping("index")
     public String accountsRegister(ModelMap modelMap) {
-        List<House> houses = houseService.getLastest();
-        modelMap.put("recomHouses", houses);
+//        List<House> houses = houseService.getLastest();
+//        modelMap.put("recomHouses", houses);
+        modelMap.put("recomHouses", Lists.newArrayList());
         return "/homepage/index";
     }
 

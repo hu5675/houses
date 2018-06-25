@@ -65,13 +65,19 @@ public class UserController {
     }
 
     @RequestMapping("get")
-    public RestResponse<User> getUser(String token){
+    public RestResponse<User> getUser(String token) throws InterruptedException {
+//        if (token != null){
+//            Thread.sleep(10000000);
+//        }
         User finalUser = userService.getLoginedUserByToken(token);
         return RestResponse.success(finalUser);
     }
 
     @RequestMapping("logout")
-    public RestResponse<Object> logout(String token){
+    public RestResponse<Object> logout(String token) throws InterruptedException {
+//        if (token != null){
+//            Thread.sleep(10000);
+//        }
         userService.invalidate(token);
         return RestResponse.success();
     }

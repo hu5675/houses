@@ -27,11 +27,16 @@ public class HttpClientAutoConfiguration {
         this.properties = properties;
     }
 
-    @Autowired
-    LogbookHttpRequestInterceptor logbookHttpRequestInterceptor;
+    Logbook logbook = Logbook.builder()
+            .condition(exclude(
+                    requestTo("**")))
+            .build();
 
-    @Autowired
-    LogbookHttpResponseInterceptor logbookHttpResponseInterceptor;
+//    @Autowired
+//    LogbookHttpRequestInterceptor logbookHttpRequestInterceptor;
+
+//    @Autowired
+//    LogbookHttpResponseInterceptor logbookHttpResponseInterceptor;
 
     @Bean
     @ConditionalOnMissingBean(HttpClient.class)
@@ -43,8 +48,9 @@ public class HttpClientAutoConfiguration {
                 .setUserAgent(properties.getAgent())
                 .setMaxConnPerRoute(properties.getMaxConnPerRoute())
                 .setMaxConnTotal(properties.getMaxConnTotal())
-                .addInterceptorFirst(logbookHttpResponseInterceptor)
-                .addInterceptorFirst(logbookHttpResponseInterceptor)
+//                .addInterceptorFirst(logbookHttpResponseInterceptor)
+//                .addInterceptorFirst(new LogbookHttpRequestInterceptor(logbook))
+//                .addInterceptorFirst(logbookHttpResponseInterceptor)
                 .build();
         return  client;
     }
